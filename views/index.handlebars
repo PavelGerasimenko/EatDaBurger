@@ -1,0 +1,51 @@
+<div class="container-fluid mainContainer">
+  <div class="container col-sm-12 col-lg-12">
+
+    <div class="row">
+      <div style="margin: 25px auto 0 auto; display: flex; justify-content: center;">
+        <img style="border: solid 1px black;" src="assets/img/burger.jpg">
+      </div>
+    </div>
+
+    <div class="row" style="height: 750px;">
+
+      <div class="col-sm-4 col-lg-offset-2 col-lg-2" style="display: flex; justify-content: space-between;">
+        <div style="margin-top: 60px;">
+          <ul>
+            <div id="undevoured"></div>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-lg-4">
+        <div style="display: block;">
+          <div style="display: flex; justify-content: center;"><h2 style="color: #b70b0b;">Eat-Da-Burger</h2></div>
+          <div style="display: flex; justify-content: center;"><form class="create-form">
+            <textarea style="padding-top: 40px; white-space: normal;
+              text-align: justify;
+              -moz-text-align-last: center; /* Firefox 12+ */
+              text-align-last: center"; rows="3" cols="45" wrap="physical" name="comments" id="textarea">
+            </textarea>
+            <div style="">
+              <div style="display: flex; justify-content: center;">
+                <button style="margin: 15px auto 15px auto;" class="btn-primary" type="submit" id="submit">
+                  Add Burger
+                </button>
+              </div>
+              <p style="text-align: center;">Add a burger you'd like to devour!</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-lg-2" style="display: flex; justify-content: flex-start;">
+      <div style="margin-top: 60px;">
+        <ul>
+          <div id="devoured"></div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

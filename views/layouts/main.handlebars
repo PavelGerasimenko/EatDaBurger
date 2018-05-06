@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Eat-Da-Burger</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+      body {
+      background-color: #ffcc66;
+      }
+      .mainContainer {
+      height: 100vh;
+      }
+    </style>
+    <meta name="viewport" content="width=1000">
+
+  </head>
+  <body>
+    {{{ body }}}
+    <script>
+      $(function() {
+      	$("#submit").on("click", function(event) {
+      		event.preventDefault();
+      		handleValidateInputReturned(validateInput());
+      	});
+
+      	const handleValidateInputReturned = validateInputReturned => {
+      		return validateInputReturned
+      			? sendBurgerToServerThenRender(createNewBurger())
+      			: alert("Please enter a valid burger.");
+      	};
+
+      	const validateInput = () => {
+      		return /[a-z]/i.test(
+      			$("#textarea")
+      				.val()
+      				.trim()
+      		)
+      			? true
+      			: false;
+      	};
+
+      	const createNewBurger = () => ({
+      		newBurger: {
+      			name: $("#textarea")
+      				.val()
+      				.trim()
+      		}
+      	});
+
+      	const sendBurgerToServerThenRender = burger => {
+      		$.post("/index", burger).done(data => renderBurger(data));
+      	};
+
+      	const renderBurger = data => {
+      		clearText();
+      		$("#undevoured").append(
+      			`
+						<div>
+						  <p
+						    style='
+						    overflow: auto;
+						    margin-top: 10px;
+						    margin-left: -5px;
+						    border: 1px solid lightgrey;
+						    height: 50px;
+						    width: 200px;
+						    background-color: white;
+						    display: flex;
+						    align-items: center;
+						    justify-content: center;'
+						    >
+						    ${data[data.length - 1].burger_name}
+						  </p>
+						  <div style='
+						    display: flex;
+						    justify-content: center;'
+						    >
+						    <button
+						    input[type='button']
+						    id=${data[data.length - 1].burger_id}
+						    class='btn-primary devourButton'
+						    >
+						    Devour!
+						    </button>
+						  </div>
+						</div>
+						`
+      		);
+      	};
+
+      	const clearText = () => $("#textarea").val("");
+
+      	$("#undevoured").on("click", ".devourButton", function(e) {
+      		const buttonClicked = e.target;
+      		// the id of the button clicked, that corresponds with database burger_id value
+      		const idClicked = e.target.id;
+
+      		$.ajax("/index", {
+      			type: "PUT",
+      			data: {
+      				idClicked: idClicked
+      			}
+      		}).then(function() {
+      			// when a burger is eaten, move it to the other side of the page
+      			const moveIt = $(buttonClicked)
+      				.parent($("<div>"))
+      				.parent($("<div>"))
+      				.detach();
+      			moveIt.css("margin-left", 5)
+      			$(buttonClicked).hide();
+      			$("#devoured").append(moveIt);
+      		});
+      	});
+      });
+    </script>
+  </body>
+</html>
